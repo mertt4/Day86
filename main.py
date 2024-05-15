@@ -1,15 +1,16 @@
 import tkinter as tk
+import tkinter.font as tkFont
 import random
 import time
 from tkinter import messagebox
-import tkinter.font as tkFont
 
 
 class TypingSpeedTest:
     def __init__(self, master):
         self.master = master
         self.master.title("Typing Speed Test")
-        self.master.geometry("300x300")
+        self.master.geometry("400x525")
+        self.master.config(bg="#153448")  # Dark Slate Gray
 
         # Load words from file
         try:
@@ -28,29 +29,37 @@ class TypingSpeedTest:
         self.total_characters_typed = 0
         self.test_running = False
 
-        self.label_instruction = tk.Label(self.master, text="Type the word below:")
-        self.label_instruction.pack()
+        self.custom_font = tkFont.Font(family="Helvetica", size=24, weight="bold")
+        self.label_font = tkFont.Font(family="Helvetica", size=14)
+        self.result_font = tkFont.Font(family="Helvetica", size=12)
 
-        # Create a custom font with larger size
-        self.custom_font = tkFont.Font(family="Arial", size=24, weight="bold")
+        # Create a frame for the main content
+        self.frame = tk.Frame(self.master, bg="#3C5B6F")  # Medium Slate Gray
+        self.frame.pack(pady=20, padx=20, fill=tk.BOTH, expand=True)
 
-        self.word_display = tk.Label(self.master, text="", font=self.custom_font)
-        self.word_display.pack()
+        self.label_instruction = tk.Label(self.frame, text="Type the word below:", font=self.label_font,
+                                          bg="#3C5B6F", fg="#DFD0B8")  # Pale Goldenrod
+        self.label_instruction.pack(pady=10)
 
-        self.entry = tk.Entry(self.master)
-        self.entry.pack()
+        self.word_display = tk.Label(self.frame, text="", font=self.custom_font, bg="#948979", fg="#153448", pady=10)  # Medium Aquamarine for background, Dark Slate Gray for text
+        self.word_display.pack(pady=10)
 
-        self.label_result = tk.Label(self.master, text="")
-        self.label_result.pack()
+        self.entry = tk.Entry(self.frame, font=self.custom_font, bg="#DFD0B8", fg="#153448")  # Pale Goldenrod for background, Dark Slate Gray for text
+        self.entry.pack(pady=10)
 
-        self.label_timer = tk.Label(self.master, text="Time left: ")
-        self.label_timer.pack()
+        self.label_result = tk.Label(self.frame, text="", font=self.result_font, bg="#3C5B6F", fg="#DFD0B8")  # Medium Slate Gray for background, Pale Goldenrod for text
+        self.label_result.pack(pady=10)
 
-        self.button_start = tk.Button(self.master, text="Start Test", command=self.start_test)
-        self.button_start.pack()
+        self.label_timer = tk.Label(self.frame, text="Time left: 60", font=self.label_font, bg="#3C5B6F", fg="#DFD0B8")  # Medium Slate Gray for background, Pale Goldenrod for text
+        self.label_timer.pack(pady=10)
 
-        self.button_restart = tk.Button(self.master, text="Restart", command=self.restart_test, state=tk.DISABLED)
-        self.button_restart.pack()
+        self.button_start = tk.Button(self.frame, text="Start Test", font=self.label_font, command=self.start_test,
+                                      bg="#4CAF50", fg="white", padx=20, pady=5)
+        self.button_start.pack(pady=5)
+
+        self.button_restart = tk.Button(self.frame, text="Restart", font=self.label_font, command=self.restart_test,
+                                        state=tk.DISABLED, bg="#f44336", fg="white", padx=20, pady=5)
+        self.button_restart.pack(pady=5)
 
     def start_test(self):
         if not self.test_running:
