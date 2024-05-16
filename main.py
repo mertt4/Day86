@@ -138,12 +138,13 @@ class TypingSpeedTest:
             self.test_running = False
 
     def reset_test(self):
-        if self.test_running:
+        if self.timer_id is not None:
             self.master.after_cancel(self.timer_id)  # Cancel timer if running
-            self.entry.config(state=tk.NORMAL)  # Re-enable entry field
-            self.button_start.config(state=tk.NORMAL)
-            self.test_running = False
         self.entry.delete(0, tk.END)  # Clear entry field
+        self.entry.config(state=tk.NORMAL)  # Re-enable entry field
+        self.button_start.config(state=tk.NORMAL)
+        self.button_reset.config(state=tk.DISABLED)
+        self.test_running = False
         self.label_result.config(text="")
         self.label_timer.config(text=f"Time left: {START_TIME}")
         self.uncorrected_errors = 0
@@ -151,7 +152,6 @@ class TypingSpeedTest:
         self.best_gross_wpm = 0
         self.best_net_wpm = 0
         self.best_cpm = 0
-        self.button_reset.config(state=tk.DISABLED)
         self.entry.focus_set()  # Set focus back to entry field
 
 
